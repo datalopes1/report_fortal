@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "rfortal"
+version = "0.1.0"
+description = "Web Scraping dos Dados para um report mensal de dados imobiliários"
+authors = ["datalopes1 <datalopes1@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.3"
+duckdb = "^1.3.0"
+poetry = "^2.1.3"
+dbt-core = "^1.9.4"
+dbt-duckdb = "^1.9.3"
+ipython = "^9.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
