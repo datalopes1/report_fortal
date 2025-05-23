@@ -34,27 +34,36 @@ class ChavesSpider(scrapy.Spider):
         tipo = response.meta['tipo']
         page = response.meta['page']
 
-        imoveis = response.css('span.card-module__cvK-Xa__cardContent')
+        imoveis = response.css('span.card-module__1awNxG__cardContent')
 
         for imovel in imoveis:
-            raw_area = imovel.css('p.styles-module__aBT18q__body2.undefined::text').getall()
-            condos = imovel.css('span.card-module__cvK-Xa__cardContent p small::text').getall()
+            raw_loc = imovel.css('address.style-module__PkTDxW__address p::text').getall()
+            localizacao = raw_loc[1] if len(raw_loc) > 1 else None
+
+            comodos = imovel.css('span.style-module__PkTDxW__list p::text').getall()
+            area = comodos[1] if len(comodos) > 1 else None
+            quartos = comodos[3] if len(comodos) > 3 else None
+            vagas = comodos[5] if len(comodos) > 5 else None
+            banheiros = comodos[7] if len(comodos) > 7 else None
+
+            raw_condo = imovel.css('p.column.style-module__PkTDxW__price small::text').getall()
+            condo = raw_condo[1] if len(raw_condo) > 1 else None
+
+            preco = imovel.css('span.card-module__1awNxG__cardContent p b::text').get()
 
             yield {
-                'preco': self.clean_prices(imovel.css('span.card-module__cvK-Xa__cardContent p b::text').get()),
+                'preco': self.clean_prices(preco),
                 'tipo': tipo,
-                'localizacao': self.clean_local(imovel.css('address p:nth-of-type(2)::text').get()),
-                'area': raw_area[1] if len(raw_area) > 1 else None,
-                'quartos': imovel.css('span.style-module__Yo5w-q__list p:nth-of-type(2)::text').get(),
-                'banheiros': imovel.css('span.style-module__Yo5w-q__list p:nth-of-type(4)::text').get(),
-                'vagas': imovel.css('span.style-module__Yo5w-q__list p:nth-of-type(3)::text').get(),
-                'condo': self.clean_prices(condos[1]) if len(condos) > 1 else None
+                'localizacao': self.clean_local(localizacao),
+                'area': area,
+                'quartos': quartos,
+                'banheiros': banheiros,
+                'vagas': vagas,
+                'condo': self.clean_prices(condo)
             }
 
-        if page < 100:
-            next_page = response.css(
-                'span.row.w100.style-module__yjYI8a__nextlink a::attr(href)'
-            ).get()
+        if page < 5:
+            next_page = response.css('a[rel="next"]::attr(href)').get()
             if next_page:
                 next_page_url = response.urljoin(next_page)
                 yield scrapy.Request(

@@ -59,7 +59,7 @@ class ZapSpider(scrapy.Spider):
                 'condo': condo
             }
 
-        if page < 500:
+        if page < 50:
             next_page = f"{response.url.split('?')[0]}?pagina={page + 1}"
             yield scrapy.Request(
                 url=next_page,
