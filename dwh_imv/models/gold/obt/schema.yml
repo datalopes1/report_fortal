@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: gold_imoveis_obt
+    description: "Tabela gold com imóveis limpos, enriquecidos com localização, proximidade da orla e centro, e categorização por regional."
+    columns:
+      - name: id
+        description: "Chave única gerada via hash dos principais atributos."
+        tests:
+          - unique
+          - not_null
+
+      - name: origem
+        description: "Origem do portal de anúncio (ex: Viva Real, ZAP)."
+      
+      - name: date_ref
+        description: "Data de referência da coleta dos dados (formato YYYY-MM)."
+
+      - name: tipo
+        description: "Tipo de imóvel (ex: Apartamento, Casa, etc)."
+      
+      - name: localizacao
+        description: "Bairro ou localização fornecida no anúncio."
+
+      - name: faixa_preco
+        description: "Faixa de preço do imóvel (1: até 200.000, 2: 200.000 à 500.000, 3: 500.000 à 1.000.000, 4: 1.000.000 à 5.000.000, 5: acima de 5.000.000)"
+
+      - name: area
+        description: "Área privativa do imóvel em m²."
+
+      - name: quartos
+        description: "Número de quartos do imóvel."
+
+      - name: banheiros
+        description: "Número de banheiros do imóvel."
+
+      - name: vagas
+        description: Número de vagas de garagem.
+
+      - name: preco
+        description: "Valor do imóvel em reais (R$)."
+      
+      - name: condo
+        description: "Valor do condomínio mensal (R$), se houver."
+
+      - name: secretaria_regional
+        description: "Regional administrativa de Fortaleza à qual pertence o imóvel."
+
+      - name: prox_orla
+        description: "Flag de proximidade da orla."
+
+      - name: prox_centro
+        description: "Flag de proximidade do centro."
