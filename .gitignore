@@ -5,3 +5,6 @@
 src/extract/spiders/__pycache__
 src/extract/__pycache__
 
+# dbt
+logs/
+dwh_imv/dev.duckdb
