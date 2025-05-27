@@ -7,4 +7,4 @@ src/extract/__pycache__
 
 # dbt
 logs/
-dwh_imv/dev.duckdb
+dwh/dev.duckdb
