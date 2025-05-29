@@ -31,7 +31,7 @@ Este projeto foi desenvolvido utilizando:
 ![img](img/arq.png)
 
 ## 🚀 Como Executar
-Acesse a aplicação web no [Streamlit Cloud]().
+Acesse a aplicação web no [Streamlit Cloud](https://radarimob-fortal.streamlit.app/).
 
 #### Execução
 1️⃣ **Clone o repositório**
