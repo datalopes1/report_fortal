@@ -48,7 +48,6 @@ SELECT
 	banheiros,
 	vagas,
 	preco,
-	ROUND((preco / area), 2) AS preco_m2,
 	condo,
     ROW_NUMBER() OVER (PARTITION BY id ORDER BY preco DESC) AS row_num
 FROM silver_base)
@@ -66,7 +65,6 @@ SELECT
 	banheiros,
 	vagas,
 	preco,
-	preco_m2,
 	condo,
 	CURRENT_TIMESTAMP AS ingestion_timestamp
 FROM gold_features

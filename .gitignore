@@ -8,3 +8,6 @@ src/extract/__pycache__
 # dbt
 logs/
 dwh/dev.duckdb
+
+#files
+eda.ipynb
