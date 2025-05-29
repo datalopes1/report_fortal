@@ -51,9 +51,8 @@ SELECT
 FROM deduplication
 WHERE 
 	row_num = 1
-	AND preco > 0
-	AND quartos > 0
-	AND banheiros > 0
-	AND area > 0
-
-
+	AND preco > 65000
+	AND quartos BETWEEN 1 AND 10
+	AND banheiros BETWEEN 1 AND 10
+	AND vagas BETWEEN 1 AND 10
+	AND area BETWEEN 30 AND 1000
