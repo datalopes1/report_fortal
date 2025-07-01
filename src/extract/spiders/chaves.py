@@ -62,7 +62,7 @@ class ChavesSpider(scrapy.Spider):
                 'condo': self.clean_prices(condo)
             }
 
-        if page < 5:
+        if page < 99:
             next_page = response.css('a[rel="next"]::attr(href)').get()
             if next_page:
                 next_page_url = response.urljoin(next_page)

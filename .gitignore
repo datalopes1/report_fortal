@@ -1,9 +1,11 @@
 # env
 .venv/
+.vscode
 
 # src
 src/extract/spiders/__pycache__
 src/extract/__pycache__
+src/dashboard/__pycache__
 
 # dbt
 logs/
@@ -11,3 +13,5 @@ dwh/dev.duckdb
 
 #files
 eda.ipynb
+.ipynb_checkpoints
+data/testing.duckdb

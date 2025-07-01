@@ -1,6 +1,7 @@
 import duckdb
 import pandas as pd
 import logging
+import os
 
 logging.basicConfig(
     level=logging.INFO,
@@ -55,31 +56,54 @@ def save_table(df: pd.DataFrame,
         raise 
 
 
+def get_origin(file_name: str, name_map: dict):
+    """
+    Identifica a origem dos dados extraídos pelo nome do arquivo
+
+    Args:
+        - file_name (str): Nome do arquivo 
+        - name_map (dict): Dicionário com os nomes
+    """
+    for chave, origem in name_map.items():
+        if chave in file_name.lower():
+            return origem
+    return "Origem Desconhecida"
+
+
 def main():
-    abr_path = "data/raw/abr-2025"
-    mai_path = "data/raw/mai-2025"
-    
-    abr = [
-        load_data(f"{abr_path}/chaves_casas.json", "Chaves na Mão", "2025-04"),
-        load_data(f"{abr_path}/chaves_condominio.json", "Chaves na Mão", "2025-04"),
-        load_data(f"{abr_path}/chaves.json", "Chaves na Mão", "2025-04"),
-        load_data(f"{abr_path}/lopes.json", "Imobiliária Lopes", "2025-04")
+    file_path = input("Insira o caminho da pasta com os arquivos.json: ").strip()
+    date_ref = input("Insira a data de referência da extração no formato YYYY-MM: ").strip()
+
+    origens = {
+        "chaves": "Chaves na Mão",
+        "vivareal": "Viva Real",
+        "zap": "ZAP Imóveis"
+    }
+
+    files = [
+        os.path.join(file_path, file)
+        for file in os.listdir(file_path)
+        if file.endswith(".json")
     ]
 
-    mai = [
-        load_data(f"{mai_path}/chaves.json", "Chaves na Mão", "2025-05"),
-        load_data(f"{mai_path}/vivareal.json", "Viva Real", "2025-05"),
-        load_data(f"{mai_path}/zap.json", "ZAP Imóveis", "2025-05")
-    ]
+    dataframes = []
+    for file in files:
+        file_name = os.path.basename(file)
+        origem = get_origin(file_name, origens)
 
-    df_abr = pd.concat(abr, ignore_index=True)
-    df_mai = pd.concat(mai, ignore_index=True)
+        try:
+            df = load_data(file, origem, date_ref)
+            dataframes.append(df)
+        except Exception:
+            raise
+
+    df_final = pd.concat(dataframes, ignore_index=True)
 
     conn = duckdb.connect("data/database.duckdb")
     logging.info("Conexão com banco de dados iniciada.")
 
-    save_table(df_abr, "imoveis_2025","abril", conn)
-    save_table(df_mai, "imoveis_2025","maio", conn)
+    table_name = os.path.basename(file_path).split("-")[0]
+    save_table(df_final, "imoveis_2025", table_name, conn)
 
     logging.info("Ingestão de dados concluída.")
     logging.info("Conexão com o banco de dados encerrada.")
