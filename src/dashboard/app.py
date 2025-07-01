@@ -379,7 +379,7 @@ with tab_report:
                     st.plotly_chart(
                         utils.plot_bar(
                             valori,
-                            title='💰 Top 5 Bairros com Maior Valorização (Maio/2025)',
+                            title='💰 Top 5 Bairros com Maior Valorização (Junho/2025)',
                             x='localizacao',
                             y='variacao_m2_pct',
                             xlabel='Localização',
