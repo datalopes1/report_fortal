@@ -7,6 +7,8 @@ WITH silver_base AS (
     SELECT * FROM {{ ref('silver_abr') }} 
     UNION ALL
     SELECT * FROM {{ ref('silver_mai') }}
+	UNION ALL
+    SELECT * FROM {{ ref('silver_jun') }}
 ), gold_features AS (
 SELECT 
 	id,
@@ -68,3 +70,4 @@ SELECT
 	condo,
 	CURRENT_TIMESTAMP AS ingestion_timestamp
 FROM gold_features
+WHERE row_num = 1
